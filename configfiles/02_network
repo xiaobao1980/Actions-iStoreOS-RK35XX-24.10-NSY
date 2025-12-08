@@ -50,6 +50,9 @@ rockchip_setup_interfaces()
 		;;
 	hinlink,h88k-v3|\
 	hinlink,opc-h69k|\
+    embedfire,lubancat-2n)
+		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
+		;;
 	friendlyarm,nanopi-r5s)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2' 'eth0'
 		;;
@@ -106,6 +109,7 @@ rockchip_setup_macs()
 
 	case "$board" in
 	armsom,sige7|\
+    embedfire,lubancat-2n|\
 	lunzn,fastrhino-r66s|\
 	lunzn,fastrhino-r68s|\
 	nsy,g68-plus|\
