@@ -50,9 +50,6 @@ rockchip_setup_interfaces()
 		;;
 	hinlink,h88k-v3|\
 	hinlink,opc-h69k|\
-    embedfire,lubancat-2n)
-		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
-		;;
 	friendlyarm,nanopi-r5s)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2' 'eth0'
 		;;
@@ -66,6 +63,12 @@ rockchip_setup_interfaces()
 	lyt,t88m)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3' 'eth0'
 		;;
+    embedfire,lubancat-2n)
+        ucidef_set_interfaces_lan_wan "eth1 eth2 eth3" "eth0"
+        ;;	
+    roceos,k50s)
+		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3 eth4' 'eth0'
+		;;	
 	roceos,k60pro)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3 eth4 eth5' 'eth0'
 		;;
