@@ -15,6 +15,8 @@
 #include "rk3588s-ip.dtsi"
 #include "rk3588s-ip-supply.dtsi"
 
+#include "rk3588-ramoops.dtsi"
+
 / {
 	model = "Xunlong Orange Pi 5 Plus";
 	compatible = "xunlong,orangepi-5-plus", "rockchip,rk3588";
@@ -91,10 +93,11 @@
 
 	fan: pwm-fan {
 		compatible = "pwm-fan";
-		cooling-levels = <0 70 75 80 100>;
+		cooling-levels = <0 85 170 255>;  // 0%, 33%, 67%, 100%
 		fan-supply = <&vcc5v0_sys>;
 		pwms = <&pwm3 0 50000 0>;
 		#cooling-cells = <2>;
+		status = "okay";
 	};
 
 	pwm-leds {
@@ -484,6 +487,51 @@
 	reset-gpios = <&gpio4 RK_PB6 GPIO_ACTIVE_HIGH>;
 	vpcie3v3-supply = <&vcc3v3_pcie30>;
 	status = "okay";
+};
+
+&package_thermal {
+	priority = <100>;
+	polling-delay-passive = <1000>;
+	polling-delay-active = <500>;
+	thermal-sensors = <&tsadc 0>;
+	status = "okay";
+
+	trips {
+		cpu_trip_active_cool: cpu-trip-active-cool {
+			temperature = <48000>;
+			hysteresis = <3000>;
+			type = "passive";
+		};
+
+		cpu_trip_active_low: cpu-trip-active-low {
+			temperature = <55000>;
+			hysteresis = <3000>;
+			type = "active";
+		};
+
+		cpu_trip_active_high: cpu-trip-active-high {
+			temperature = <65000>;
+			hysteresis = <5000>;
+			type = "active";
+		};
+	};
+
+	cooling-maps {
+		cpu-active-cool {
+			cooling-device = <&fan 0 1>;
+			trip = <&cpu_trip_active_cool>;
+		};
+
+		cpu-active-low {
+			cooling-device = <&fan 1 2>;
+			trip = <&cpu_trip_active_low>;
+		};
+
+		cpu-active-high {
+			cooling-device = <&fan 2 3>;
+			trip = <&cpu_trip_active_high>;
+		};
+	};
 };
 
 &pinctrl {
